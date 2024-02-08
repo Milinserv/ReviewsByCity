@@ -49,6 +49,11 @@ $config = [
             ],
         ],
     ],
+    'modules' => [
+        'city' => [
+            'class' => 'app\modules\city\Module',
+        ],
+    ],
     'params' => $params,
 ];
 
