@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use app\models\LoginForm;
 use app\models\SignupForm;
-use app\models\User;
+use app\models\Author;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
@@ -40,6 +40,7 @@ class AuthController extends Controller
         if (Yii::$app->request->isPost)
         {
             $model->load(Yii::$app->request->post());
+            $model->password = Author::hashPassword($model->password);
             if ($model->signup())
             {
                 return $this->redirect(['auth/login']);

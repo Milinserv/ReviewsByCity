@@ -61,4 +61,12 @@ class Comment extends ActiveRecord
     {
         return $this->hasMany(City::class, ['id' => 'id_city']);
     }
+    public function getAuthor()
+    {
+        return $this->hasOne(Author::class, ['id' => 'id_author']);
+    }
+    public function getDate()
+    {
+        return Yii::$app->formatter->asDate($this->date_create);
+    }
 }

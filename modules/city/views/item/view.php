@@ -28,16 +28,14 @@ YiiAsset::register($this);
                                                 <div class="w-100">
                                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                                         <h6 class="text-primary fw-bold mb-0">
-                                                            <p>AUTHOR</p>
+                                                            <p><?= $comment->author->fio ?></p>
                                                             <span class="text-dark ms-2"><?= $comment->text ?></span>
                                                         </h6>
-                                                        <p class="mb-0"><?= $comment->date_create ?></p>
+                                                        <p class="mb-0"><?= $comment->getDate() ?></p>
                                                     </div>
                                                     <div class="d-flex justify-content-between align-items-center">
                                                         <p class="small mb-0" style="color: #aaa;">
-                                                            <a href="#!" class="link-grey">Remove</a> •
-                                                            <a href="#!" class="link-grey">Reply</a> •
-                                                            <a href="#!" class="link-grey">Translate</a>
+                                                            <a href="#!" class="link-grey">Remove</a>
                                                         </p>
                                                         <div class="d-flex flex-row">
                                                             <i class="fas fa-star text-warning me-2"></i>
@@ -54,27 +52,45 @@ YiiAsset::register($this);
                     </div>
                 </section>
                 <?php endif; ?>
-                <!--                    --><?php //if (!Yii::$app->user->isGuest): ?>
-                <div style="padding-top: 20px">
-                    <?php $form = ActiveForm::begin(['action' => ['item/comment', 'id' => $city->id], 'options' => ['role' => 'form']]) ?>
-                    <div class="card-footer py-3 border-0">
-                        <div class="d-flex flex-start w-100">
-                            <div class="form-outline w-100">
-                                <?= $form->field($commentForm, 'comment')
-                                    ->textarea(['class' => 'form-control', 'placeholder' => 'Write Message', 'rows' => '6'])
-                                    ->label(false)
-                                ?>
+                <?php if (!Yii::$app->user->isGuest): ?>
+                    <div class="border-2-black" style="padding-top: 20px">
+                        <?php $form = ActiveForm::begin(['action' => ['item/comment', 'id' => $city->id, 'author' => Yii::$app->user->id], 'options' => ['role' => 'form']]) ?>
+                        <div class="card-footer py-3 border-0">
+                            <div class="d-flex flex-start w-100">
+                                <div class="form-outline w-100">
+                                    <?= $form->field($commentForm, 'title')
+                                        ->textInput(['class' => 'form-control', 'rows' => '6'])
+                                        ->label('Название отзыва')
+                                    ?>
+                                    <?= $form->field($commentForm, 'comment')
+                                        ->textarea(['class' => 'form-control', 'rows' => '6'])
+                                        ->label('Текст отзыва')
+                                    ?>
+                                    <?= $form->field($commentForm, 'rating')
+                                        ->dropDownList([
+                                            '0' => '1',
+                                            '1' => '2',
+                                            '2' => '3',
+                                            '3' => '4',
+                                            '4' => '5',
+                                        ])
+                                        ->label('Рейтинг')
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="float-end">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    Отправить отзыв
+                                </button>
                             </div>
                         </div>
-                        <div class="float-end mt-2 pt-1">
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                Post comment
-                            </button>
-                        </div>
+                        <?php ActiveForm::end(); ?>
                     </div>
-                    <?php ActiveForm::end(); ?>
-                </div>
-                <!--                    --><?php //endif; ?>
+                <?php else: ?>
+                    <div class="border border-5 border-gray-400 rounded w-100 h-50 mt-5 text-center justify-content-center">
+                        <p class="text-info fs-3 mt-3">Зарегистрируйтесь, чтобы оставить отзыв</p>
+                    </div>
+                <?php endif; ?>
             </article>
         </div>
     </div>

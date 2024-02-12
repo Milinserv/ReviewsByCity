@@ -1,21 +1,29 @@
 <?php
 namespace app\models;
 
+use Cassandra\Date;
 use yii\base\Model;
+use yii\captcha\Captcha;
 
 class SignupForm extends Model
 {
-    public $name;
+    public $fio;
     public $email;
     public $password;
+    public $phone;
+    public $date_create;
+    public $passwordRepeat;
+    public $verifyCode;
 
     public function rules()
     {
         return [
-            [['name', 'email', 'password'], 'required'],
-            [['name'], 'string'],
+            [['fio', 'email', 'password'], 'required'],
+            [['fio'], 'string'],
             [['email'], 'email'],
-            [['email'], 'unique', 'targetClass' => 'app\models\User', 'targetAttribute' => 'email']
+            [['phone'], 'required'],
+            [['email'], 'unique', 'targetClass' => 'app\models\Author', 'targetAttribute' => 'email'],
+            ['verifyCode', 'captcha']
         ];
     }
 
@@ -23,9 +31,10 @@ class SignupForm extends Model
     {
         if ($this->validate())
         {
-            $user = new User();
+            $user = new Author();
 
             $user->attributes = $this->attributes;
+            $user->date_create = date("Y-m-d");
 
             return $user->create();
         }

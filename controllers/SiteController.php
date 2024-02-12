@@ -51,7 +51,10 @@ class SiteController extends Controller
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                'foreColor' => 0xFE980F, // цвет символов
+                'minLength' => 2, // минимальное количество символов
+                'maxLength' => 3, // максимальное
+                'offset' => 10, // расстояние между символами (можно отрицательное)
             ],
         ];
     }
@@ -75,7 +78,6 @@ class SiteController extends Controller
         {
             return $this->render('index', [
                 'cityVisitor' => $cityVisitor,
-                'ses' => SessionModel::getCityOnSession()
             ]);
         }
     }

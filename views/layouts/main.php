@@ -42,12 +42,12 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             </div>
             <div class="btn-group" role="group">
                 <?php if (Yii::$app->user->isGuest): ?>
-                    <a type="button" class="btn text-white" href="<?= Url::toRoute(['auth/login']) ?>">Войти</a>
-                    <a type="button" class="btn text-white" href="<?= Url::toRoute(['auth/signup']) ?>">Регистрация</a>
+                    <a type="button" class="btn text-white" href="<?= Url::toRoute(['/auth/login']) ?>">Войти</a>
+                    <a type="button" class="btn text-white" href="<?= Url::toRoute(['/auth/signup']) ?>">Регистрация</a>
                 <?php else: ?>
                     <?= Html::beginForm(['/auth/logout'], 'post')
                     . Html::submitButton(
-                        'Выйти (' . Yii::$app->user->identity->name . ')',
+                        'Выйти (' . Yii::$app->user->identity->fio . ')',
                         ['class' => 'btn text-white', 'style' => "padding-top:10px;"]
                     )
                     . Html::endForm() ?>
@@ -58,7 +58,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 </header>
 
 <main id="main" class="flex-shrink-0" role="main">
-    <div class="container">
+    <div class="container mb-4">
         <?php if (!empty($this->params['breadcrumbs'])): ?>
             <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
         <?php endif ?>

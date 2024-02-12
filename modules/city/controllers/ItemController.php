@@ -76,7 +76,7 @@ class ItemController extends Controller
         ]);
     }
 
-    public function actionComment($id)
+    public function actionComment($id, $author)
     {
         $model = new CommentForm();
 
@@ -84,7 +84,7 @@ class ItemController extends Controller
         {
             $model->load(Yii::$app->request->post());
 
-            if ($model->saveComment($id))
+            if ($model->saveComment($id, $author))
             {
                 $cityName = City::getCityById($id);
                 return $this->redirect(['item/view', 'name' => $cityName->name]);

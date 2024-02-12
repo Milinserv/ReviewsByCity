@@ -18,14 +18,14 @@ use yii\web\IdentityInterface;
  *
  * @property Comment[] $comments
  */
-class User extends ActiveRecord implements IdentityInterface
+class Author extends ActiveRecord implements IdentityInterface
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'user';
+        return 'author';
     }
 
     /**
@@ -34,8 +34,8 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['isAdmin'], 'integer'],
-            [['name', 'email', 'password', 'photo'], 'string', 'max' => 255],
+            [['date_create'], 'safe'],
+            [['fio', 'email', 'phone', 'password'], 'string', 'max' => 255],
         ];
     }
 
@@ -46,11 +46,11 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'fio' => 'Fio',
             'email' => 'Email',
+            'phone' => 'Phone',
+            'date_create' => 'Date Create',
             'password' => 'Password',
-            'isAdmin' => 'Is Admin',
-            'photo' => 'Photo',
         ];
     }
 
@@ -61,12 +61,12 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getComments()
     {
-        return $this->hasMany(Comment::class, ['user_id' => 'id']);
+        return $this->hasMany(Comment::class, ['id_author' => 'id']);
     }
 
     public static function findIdentity($id)
     {
-        return User::findOne($id);
+        return Author::findOne($id);
     }
 
     public function getId()
@@ -85,11 +85,16 @@ class User extends ActiveRecord implements IdentityInterface
 
     public static function findByEmail($email)
     {
-        return User::find()->where(['email' => $email])->one();
+        return Author::find()->where(['email' => $email])->one();
     }
     public function validatePassword($password)
     {
-        return ($this->password = $password) ? true : false;
+        return $this->password === static::hashPassword($password);
+    }
+
+    public static function hashPassword($password) {
+        $salt = "stev37f";
+        return md5($password.$salt);
     }
 
     public function create()
@@ -100,5 +105,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function getImage()
     {
         return $this->photo;
+    }
+
+    public function getDate()
+    {
+        return Yii::$app->formatter->asDate($this->date_create);
     }
 }
