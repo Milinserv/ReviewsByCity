@@ -1,6 +1,7 @@
 <?php
 
 /** @var yii\web\View $this */
+
 /** @var string $content */
 
 use app\assets\AppAsset;
@@ -9,6 +10,7 @@ use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 
@@ -30,32 +32,29 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <?php $this->beginBody() ?>
 
 <header id="header">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest
-                ? ['label' => 'Login', 'url' => ['/site/login']]
-                : '<li class="nav-item">'
-                    . Html::beginForm(['/site/logout'])
+    <div class="navbar navbar-inverse bg-info navbar-fixed-top headroom">
+        <div class="container">
+            <div class="navbar-header row">
+                <h1 class="text-white col-12">City comments</h1>
+            </div>
+            <div>
+                <a type="button" class="btn text-white" href="/">Домой</a>
+            </div>
+            <div class="btn-group" role="group">
+                <?php if (Yii::$app->user->isGuest): ?>
+                    <a type="button" class="btn text-white" href="<?= Url::toRoute(['auth/login']) ?>">Войти</a>
+                    <a type="button" class="btn text-white" href="<?= Url::toRoute(['auth/signup']) ?>">Регистрация</a>
+                <?php else: ?>
+                    <?= Html::beginForm(['/auth/logout'], 'post')
                     . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->username . ')',
-                        ['class' => 'nav-link btn btn-link logout']
+                        'Выйти (' . Yii::$app->user->identity->name . ')',
+                        ['class' => 'btn text-white', 'style' => "padding-top:10px;"]
                     )
-                    . Html::endForm()
-                    . '</li>'
-        ]
-    ]);
-    NavBar::end();
-    ?>
+                    . Html::endForm() ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
 </header>
 
 <main id="main" class="flex-shrink-0" role="main">

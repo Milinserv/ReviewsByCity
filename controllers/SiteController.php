@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\City;
+use app\models\SessionModel;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -64,43 +65,19 @@ class SiteController extends Controller
     {
         $cityVisitor = City::getVisitorCity();
 
-        return $this->render('index', [
-            'cityVisitor' => $cityVisitor,
-        ]);
-    }
-
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (SessionModel::getCityOnSession())
+        {
+            return $this->render('item/view',[
+                'name' => SessionModel::getCityOnSession()
+            ]);
         }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+        else
+        {
+            return $this->render('index', [
+                'cityVisitor' => $cityVisitor,
+                'ses' => SessionModel::getCityOnSession()
+            ]);
         }
-
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
     }
 
     /**

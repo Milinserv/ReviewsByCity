@@ -11,6 +11,7 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property string|null $name
  * @property string|null $date_create
+ * @property Comment[] $comments
  */
 class City extends ActiveRecord
 {
@@ -70,7 +71,7 @@ class City extends ActiveRecord
         return City::find()->where(['name' => $name])->one();
     }
 
-    public static function getByNameCityForView($name, $id = null)
+    public static function createOrGiveAwayCityNameForView($name, $id = null)
     {
         $model = new City();
 
@@ -98,5 +99,10 @@ class City extends ActiveRecord
     {
         $isCity = City::find()->where(['name' => $city ])->one();
         return $isCity != null;
+    }
+
+    public function getComments()
+    {
+        return $this->hasMany(Comment::class, ['id_city' => 'id']);
     }
 }

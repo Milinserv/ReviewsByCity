@@ -4,6 +4,8 @@ namespace app\modules\city\controllers;
 
 use app\models\City;
 use app\models\CitySearch;
+use app\models\CommentForm;
+use app\models\SessionModel;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -57,13 +59,37 @@ class ItemController extends Controller
      */
     public function actionView($name)
     {
-        $cityName = City::getByNameCityForView($name);
-
+        $cityName = City::createOrGiveAwayCityNameForView($name);
         $city = City::getCityByName($cityName);
 
+        $session = new SessionModel();
+        $session->setSession($cityName);
+
+        $commentForm = new CommentForm();
+
+        $comments = $city->comments;
+
         return $this->render('view', [
-            'city' => $city
+            'city' => $city,
+            'commentForm' => $commentForm,
+            'comments' => $comments
         ]);
+    }
+
+    public function actionComment($id)
+    {
+        $model = new CommentForm();
+
+        if (Yii::$app->request->isPost)
+        {
+            $model->load(Yii::$app->request->post());
+
+            if ($model->saveComment($id))
+            {
+                $cityName = City::getCityById($id);
+                return $this->redirect(['item/view', 'name' => $cityName->name]);
+            }
+        }
     }
 
     public function actionSearch()

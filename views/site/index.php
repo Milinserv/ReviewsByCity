@@ -4,9 +4,8 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\ActiveForm;
 
-$this->title = 'My Yii Application';
+//$this->title = 'My Yii Application';
 ?>
 <div class="site-index">
 
@@ -14,7 +13,6 @@ $this->title = 'My Yii Application';
         <?php if ($cityVisitor): ?>
             <h1 class="display-4"><?php echo $cityVisitor; ?> ваш город ?</h1>
         <?php else: ?>
-
         <?php endif; ?>
 
         <div class="form-group mt-2">

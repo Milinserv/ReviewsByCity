@@ -1,5 +1,7 @@
 <?php
 
+use yii\symfonymailer\Mailer;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -22,14 +24,14 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            'loginUrl' => ['auth/login']
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
         'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
+            'class' => Mailer::class,
             'viewPath' => '@app/mail',
-            // send all mails to a file by default.
             'useFileTransport' => true,
         ],
         'log' => [
@@ -40,6 +42,9 @@ $config = [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+        ],
+        'session'=>[
+            'timeout'=>7200,
         ],
         'db' => $db,
         'urlManager' => [
@@ -52,6 +57,12 @@ $config = [
     'modules' => [
         'city' => [
             'class' => 'app\modules\city\Module',
+        ],
+        'comment' => [
+            'class' => 'app\modules\comment\Module',
+        ],
+        'author' => [
+            'class' => 'app\modules\author\Module',
         ],
     ],
     'params' => $params,
