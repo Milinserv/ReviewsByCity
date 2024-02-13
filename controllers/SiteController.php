@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\City;
+use app\models\CommentForm;
 use app\models\SessionModel;
 use Yii;
 use yii\filters\AccessControl;
@@ -62,7 +63,7 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @return string
+     * @return Response|string
      */
     public function actionIndex()
     {
@@ -70,8 +71,15 @@ class SiteController extends Controller
 
         if (SessionModel::getCityOnSession())
         {
-            return $this->render('item/view',[
-                'name' => SessionModel::getCityOnSession()
+            $commentForm = new CommentForm();
+            $city = City::getCityByName($cityVisitor);
+            $comments = $city->comments;
+
+            return $this->redirect([
+                'city/item/view',
+                'name' => SessionModel::getCityOnSession(),
+                'commentForm' => $commentForm,
+                'comments' => $comments
             ]);
         }
         else

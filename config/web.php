@@ -14,6 +14,12 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'session' => [
+            'class' => 'yii\web\Session',
+            'cookieParams' => ['httponly' => true, 'lifetime' => 7200],
+            'timeout' => 7200,
+            'useCookies' => true,
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'false',
@@ -42,9 +48,6 @@ $config = [
                     'levels' => ['error', 'warning'],
                 ],
             ],
-        ],
-        'session'=>[
-            'timeout'=>7200,
         ],
         'db' => $db,
         'urlManager' => [
