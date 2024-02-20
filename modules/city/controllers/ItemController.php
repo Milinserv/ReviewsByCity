@@ -59,8 +59,9 @@ class ItemController extends Controller
      */
     public function actionView($name)
     {
-        $cityName = City::createOrGiveAwayCityNameForView($name);
-        $city = City::getCityByName($cityName);
+        $model = new City();
+        $cityName = $model->createOrGiveAwayCityNameForView($name);
+        $city = $model->getCityByName($cityName);
 
         $session = new SessionModel();
         $session->setSession($cityName);
@@ -79,6 +80,7 @@ class ItemController extends Controller
     public function actionComment($id, $author)
     {
         $model = new CommentForm();
+        $modelCity = new City();
 
         if (Yii::$app->request->isPost)
         {
@@ -86,7 +88,7 @@ class ItemController extends Controller
 
             if ($model->saveComment($id, $author))
             {
-                $cityName = City::getCityById($id);
+                $cityName = $modelCity->getCityById($id);
                 return $this->redirect(['item/view', 'name' => $cityName->name]);
             }
         }
@@ -94,9 +96,9 @@ class ItemController extends Controller
 
     public function actionSearch()
     {
-        $cities = ArrayHelper::map(City::getCitys(), 'id', 'name');
-
         $model = new City();
+
+        $cities = ArrayHelper::map($model->getCitys(), 'id', 'name');
 
         if (Yii::$app->request->isPost)
         {

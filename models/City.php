@@ -47,12 +47,12 @@ class City extends ActiveRecord
         ];
     }
 
-    public static function getCitys()
+    public function getCitys()
     {
         return City::find()->all();
     }
 
-    public static function getVisitorCity()
+    public function getVisitorCity()
     {
         $ip = $_SERVER['REMOTE_ADDR'];
         $query = @unserialize(file_get_contents('http://ip-api.com/php/' . $ip. '?lang=ru'));
@@ -61,17 +61,17 @@ class City extends ActiveRecord
         return $cityVisitor;
     }
 
-    public static function getCityById($id)
+    public function getCityById($id)
     {
         return City::find()->where(['id' => $id])->one();
     }
 
-    public static function getCityByName($name)
+    public function getCityByName($name)
     {
         return City::find()->where(['name' => $name])->one();
     }
 
-    public static function createOrGiveAwayCityNameForView($name, $id = null)
+    public function createOrGiveAwayCityNameForView($name, $id = null)
     {
         $model = new City();
 
@@ -80,7 +80,7 @@ class City extends ActiveRecord
             $city = self::getCityById($id);
             return $city->name;
         }
-        elseif (!City::isRecordedCity($name))
+        elseif (!$model->isRecordedCity($name))
         {
             $model->name = $name;
             $model->date_create = date("Y-m-d");
@@ -95,7 +95,7 @@ class City extends ActiveRecord
         }
     }
 
-    public static function isRecordedCity($city)
+    public function isRecordedCity($city)
     {
         $isCity = City::find()->where(['name' => $city ])->one();
         return $isCity != null;

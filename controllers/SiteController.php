@@ -67,12 +67,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $cityVisitor = City::getVisitorCity();
+        $model = new City();
+        $cityVisitor = $model->getVisitorCity();
 
         if (SessionModel::getCityOnSession())
         {
             $commentForm = new CommentForm();
-            $city = City::getCityByName($cityVisitor);
+            $city = $model->getCityByName($cityVisitor);
             $comments = $city->comments;
 
             return $this->redirect([
