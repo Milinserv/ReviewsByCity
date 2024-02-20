@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
                         'template' => "{label}\n{input}\n{error}",
                         'labelOptions' => ['class' => ''],
                         'inputOptions' => ['class' => 'form-control'],
-                        'errorOptions' => ['class' => 'invalid-feedback'],
+                        'errorOptions' => ['class' => 'text-danger'],
                     ],
                 ]); ?>
                 <div class="top-margin">
@@ -36,7 +36,7 @@ use yii\widgets\ActiveForm;
                     <?= $form->field($model, 'password')->passwordInput()->label('Придумайте пароль') ?>
                 </div>
                 <div class="top-margin">
-                    <?= $form->field($model, 'passwordRepeat')->textInput()->label('Повторите пароль') ?>
+                    <?= $form->field($model, 'passwordRepeat')->passwordInput()->label('Повторите пароль') ?>
                 </div>
 
                 <?= $form->field($model, 'verifyCode')->widget(Captcha::class)->label('Введите код') ?>

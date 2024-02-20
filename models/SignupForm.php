@@ -1,11 +1,9 @@
 <?php
 namespace app\models;
 
-use Cassandra\Date;
 use yii\base\Model;
-use yii\captcha\Captcha;
 
-class SignupForm extends Model
+class SignupForm extends Author
 {
     public $fio;
     public $email;
