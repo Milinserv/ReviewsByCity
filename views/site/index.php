@@ -16,7 +16,7 @@ use yii\helpers\Url;
         <?php endif; ?>
 
         <div class="form-group mt-2">
-            <?= Html::a('Да', [Url::toRoute(['city/item/view', 'name' => $cityVisitor])], ['class' => 'btn btn-success']) ?>
-            <?= Html::a('Нет', [Url::toRoute(['city/item/search'])], ['class' => 'btn btn-danger']) ?>
+            <?= Html::a('Да', ['city/item/view', 'name' => $cityVisitor], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('Нет', ['city/item/search'], ['class' => 'btn btn-danger']) ?>
         </div>
     </div>
