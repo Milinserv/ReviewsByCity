@@ -22,6 +22,8 @@ use yii\widgets\ActiveForm;
                         'inputOptions' => ['class' => 'form-control'],
                         'errorOptions' => ['class' => 'text-danger'],
                     ],
+                    'enableAjaxValidation' => false,
+                    'enableClientValidation' => true,
                 ]); ?>
                 <div class="top-margin">
                     <?= $form->field($model, 'fio')->textInput(['autofocus' => true])->label('ФИО') ?>
