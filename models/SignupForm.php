@@ -1,15 +1,9 @@
 <?php
-namespace app\models;
 
-use yii\base\Model;
+namespace app\models;
 
 class SignupForm extends Author
 {
-    public $fio;
-    public $email;
-    public $password;
-    public $phone;
-    public $date_create;
     public $passwordRepeat;
     public $verifyCode;
 
@@ -27,14 +21,15 @@ class SignupForm extends Author
 
     public function signup()
     {
-        if ($this->validate())
-        {
-            $user = new Author();
+        return $this->create();
+    }
 
-            $user->attributes = $this->attributes;
-            $user->date_create = date("Y-m-d");
-
-            return $user->create();
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->date_create = date("Y-m-d");
+            return true;
         }
+        return false;
     }
 }

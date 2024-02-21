@@ -99,7 +99,7 @@ class Author extends ActiveRecord implements IdentityInterface
 
     public function create()
     {
-        return $this->save(false);
+        return $this->save();
     }
 
     public function getImage()

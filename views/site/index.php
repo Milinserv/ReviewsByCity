@@ -3,9 +3,7 @@
 /** @var yii\web\View $this */
 
 use yii\helpers\Html;
-use yii\helpers\Url;
 
-//$this->title = 'My Yii Application';
 ?>
 <div class="site-index">
 
